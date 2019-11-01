@@ -51,7 +51,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "coveralls": "^2.11.9",
-    "eslint": "^3.19.0",
+    "eslint": "^6.6.0",
     "eslint-config-brightspace": "^0.2.0",
     "frau-publisher": "^2.5.3",
     "istanbul": "^0.4.3",
