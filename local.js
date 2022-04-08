@@ -72,7 +72,8 @@ function requestToken(scope) {
 			.post(TOKEN_ROUTE)
 			.type('form')
 			.send({
-				scope: scope
+				scope: scope,
+				'X-D2L-Session': 'no-keep-alive'
 			})
 			.use(xsrfToken)
 			.end(function(err, res) {
