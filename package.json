@@ -12,6 +12,11 @@
     "prepublish:cdn": "npm run bundle-host",
     "publish:cdn": "frau-publisher"
   },
+  "files": [
+    "*.js",
+    "LICENSE",
+    "README.md"
+  ],
   "config": {
     "frauPublisher": {
       "files": "./dist/**/*.js",
