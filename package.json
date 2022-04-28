@@ -55,7 +55,6 @@
     "frau-publisher": "^2.7.12",
     "mocha": "^3.3.0",
     "nock": "^9.0.4",
-    "peanut-gallery": "^1.1.1",
     "rimraf": "^2.5.2",
     "sinon": "^2.1.0",
     "uglifyify": "^3.0.1"
