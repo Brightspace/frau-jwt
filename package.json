@@ -10,15 +10,14 @@
     "prebundle-host": "rimraf dist && mkdir dist",
     "bundle-host": "browserify -g uglifyify -s frau-jwt/host host.js > dist/host.js && browserify -g uglifyify -p deumdify -s frau-jwt/host host.js > dist/host-global.js",
     "prepublish:cdn": "npm run bundle-host",
-    "publish:cdn": "frau-publisher | peanut-gallery"
+    "publish:cdn": "frau-publisher"
   },
   "config": {
     "frauPublisher": {
       "files": "./dist/**/*.js",
       "moduleType": "lib",
       "targetDirectory": "frau-jwt",
-      "devTagVar": "GIT_COMMIT",
-      "versionVar": "GIT_TAG"
+      "versionVar": "GITHUB_REF_NAME"
     }
   },
   "repository": {

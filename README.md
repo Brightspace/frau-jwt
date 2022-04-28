@@ -2,7 +2,6 @@
 
 [![NPM version][npm-image]][npm-url]
 [![Build status][ci-image]][ci-url]
-[![Dependency Status][dependencies-image]][dependencies-url]
 
 Simple utility to get a json web token in a D2L free range application
 ([frau](https://www.npmjs.com/browse/keyword/frau)).
@@ -61,23 +60,10 @@ npm test
 
 3. Ensure that all tests pass with `npm test`
 
-4. `rebase` your changes against master. *Do not merge*.
+4. `rebase` your changes against main. *Do not merge*.
 
 5. Submit a pull request to this repository. Wait for tests to run and someone
    to chime in.
-
-## Triggering a Release
-
-Releases occur based on the most recent commit message:
-* Commits which contain `[increment patch]` will trigger a `patch` release. Example: `validate input before using [increment patch]`
-* Commits which contain `[increment minor]` will trigger a `minor` release. Example: `add toggle() method [increment minor]`
-* Commits which contain `[increment major]` will trigger a `major` release. Example: `breaking all the things [increment major]`
-
-**Note:** When merging a pull request, this will be the merge commit message.
-
-## Default Increment
-
-If the most recent commit does not contain `[increment major|minor|patch]`, it will default to `[increment patch]`.
 
 ### Code Style
 
@@ -87,10 +73,8 @@ This repository is configured with [EditorConfig][EditorConfig] and
 
 [npm-url]: https://www.npmjs.org/package/frau-jwt
 [npm-image]: https://img.shields.io/npm/v/frau-jwt.svg
-[ci-url]: https://travis-ci.com/Brightspace/frau-jwt
-[ci-image]: https://img.shields.io/travis/Brightspace/frau-jwt.svg
-[dependencies-url]: https://david-dm.org/Brightspace/frau-jwt
-[dependencies-image]: https://img.shields.io/david/Brightspace/frau-jwt.svg
+[ci-url]: https://github.com/Brightspace/frau-jwt/actions/workflows/build.yml?query=+branch%3Amain
+[ci-image]: https://github.com/Brightspace/frau-jwt/actions/workflows/build.yml/badge.svg?query=+branch%3Amain
 
 [EditorConfig]: http://editorconfig.org/
 [ESLint]: http://eslint.org
