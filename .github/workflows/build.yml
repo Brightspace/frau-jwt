@@ -27,6 +27,17 @@ jobs:
       - name: Bundle Host
         run: npm run bundle-host
 
+      - name: Assume role
+        uses: Brightspace/third-party-actions@aws-actions/configure-aws-credentials
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          role-to-assume: "arn:aws:iam::771734770799:role/r+Brightspace+frau-jwt+repo"
+          role-duration-seconds: 3600
+          aws-region: us-east-1
+
       - name: Publish to CDN
         if: startsWith(github.ref, 'refs/tags/')
         run: npm run publish:cdn
