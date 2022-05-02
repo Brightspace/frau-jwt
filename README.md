@@ -26,22 +26,36 @@ jwt('a:b:c')
 
 ---
 
-#### `jwt([String scope])` -> `Promise<String>`
+#### `jwt([String scope][, Object opts])` -> `Promise<String>`
 
-Requests a JWT with the given scope from the hosting LMS. If in an ifrau, the
+Requests a JWT with the given scope and opts from the hosting LMS. If in an ifrau, the
 request will be delegated to the frame host. The resulting token will be cached
 until it expires.
 
-##### Optional: scope
+##### scope `String` _(`*:*:*:`)_
 
 If _scope_ is provided, then it will be sent as the request scope of the token.
 It should be a properly formatted String, with scopes seperated by spaces.
-Defaults to `*:*:*`.
 
-###### Examples
+```js
+jwt();
+jwt('foo:bar:baz');
+jwt('a:b:c x:y:z');
+```
 
-* `foo:bar:baz`
-* `a:b:c x:y:z`
+##### opts `Object`
+
+If an _opts_ object is provided, the following options will be checked for:
+
+##### Option: extendSession `Boolean` _(true)_
+
+You may optionally specify whether you want the user's sessions to be extended by the act of fetching the token.
+
+```js
+jwt();
+jwt({extendSession: false});
+jwt('foo:bar:baz', {extendSession: false});
+```
 
 ## Testing
 
