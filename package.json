@@ -1,6 +1,6 @@
 {
   "name": "frau-jwt",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Utility to get a JWT from a FRA",
   "main": "index.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "frau-framed": "^1.0.1",
     "frau-superagent-xsrf-token": "^2.0.0",
     "ifrau": "^0.39.0",
-    "superagent": "^3.4.1"
+    "superagent": "^7"
   },
   "devDependencies": {
     "browserify": "^14.3.0",
