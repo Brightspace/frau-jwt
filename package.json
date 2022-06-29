@@ -2,28 +2,21 @@
   "name": "frau-jwt",
   "version": "2.3.1",
   "description": "Utility to get a JWT from a FRA",
-  "main": "index.js",
+  "type": "module",
+  "main": "src/index.js",
   "scripts": {
-    "check-style": "eslint .",
-    "test-unit": "mocha -r test/_setup.js test/*.spec.js",
-    "test": "npm run check-style && npm run test-unit",
-    "prebundle-host": "rimraf dist && mkdir dist",
-    "bundle-host": "browserify -g uglifyify -s frau-jwt/host host.js > dist/host.js && browserify -g uglifyify -p deumdify -s frau-jwt/host host.js > dist/host-global.js",
-    "prepublish:cdn": "npm run bundle-host",
-    "publish:cdn": "frau-publisher"
+    "lint": "eslint . --ext .js",
+    "test": "npm run lint && npm run test:headless",
+    "test:headless": "web-test-runner --files ./test/**/*.test.js --node-resolve"
   },
   "files": [
-    "*.js",
-    "LICENSE",
-    "README.md"
+    "/src"
   ],
-  "config": {
-    "frauPublisher": {
-      "files": "./dist/**/*.js",
-      "moduleType": "lib",
-      "targetDirectory": "frau-jwt",
-      "versionVar": "GITHUB_REF_NAME"
-    }
+  "exports": {
+    ".": "./src/index.js",
+    "./framed": "./src/framed.js",
+    "./ifrau-host-plugin": "./src/host.js",
+    "./local": "./src/local.js"
   },
   "repository": {
     "type": "git",
@@ -40,23 +33,20 @@
     "url": "https://github.com/Brightspace/frau-jwt/issues"
   },
   "dependencies": {
-    "frau-framed": "^1.0.1",
-    "frau-superagent-xsrf-token": "^2.0.0",
-    "ifrau": "^0.39.0",
-    "superagent": "^7"
+    "frau-framed": "^1",
+    "frau-xsrf-token": "^3",
+    "ifrau": "^0.39"
   },
   "devDependencies": {
-    "browserify": "^14.3.0",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
-    "deumdify": "^1",
-    "eslint": "^7",
-    "eslint-config-brightspace": "^0.2.0",
-    "frau-publisher": "^2.7.12",
-    "mocha": "^3.3.0",
-    "nock": "^9.0.4",
-    "rimraf": "^2.5.2",
-    "sinon": "^2.1.0",
-    "uglifyify": "^3.0.1"
+    "@babel/eslint-parser": "^7",
+    "@open-wc/testing": "^3",
+    "@web/test-runner": "^0.13",
+    "eslint": "^8",
+    "eslint-config-brightspace": "^0.18",
+    "eslint-plugin-html": "^6",
+    "eslint-plugin-import": "^2",
+    "eslint-plugin-lit": "^1",
+    "eslint-plugin-sort-class-members": "^1",
+    "sinon": "^14"
   }
 }
