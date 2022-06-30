@@ -1,12 +1,9 @@
-'use strict';
+import getXsrfToken from 'frau-xsrf-token';
 
-var request = require('superagent'),
-	xsrfToken = require('frau-superagent-xsrf-token');
+const DEFAULT_SCOPE = '*:*:*';
+export const TOKEN_ROUTE = '/d2l/lp/auth/oauth2/token';
 
-var DEFAULT_SCOPE = '*:*:*',
-	TOKEN_ROUTE = '/d2l/lp/auth/oauth2/token';
-
-var CACHED_TOKENS = null,
+let CACHED_TOKENS = null,
 	IN_FLIGHT_REQUESTS = null,
 	CLOCK_SKEW = 0;
 
@@ -17,10 +14,10 @@ function clock() {
 }
 
 function expired(token) {
-	return module.exports._clock() + CLOCK_SKEW > token.expires_at;
+	return clock() + CLOCK_SKEW > token.expires_at;
 }
 
-function resetCaches() {
+export function resetCaches() {
 	CACHED_TOKENS = Object.create(null);
 	IN_FLIGHT_REQUESTS = Object.create(null);
 }
@@ -29,11 +26,11 @@ function cacheToken(scope, token) {
 	CACHED_TOKENS[scope] = token;
 }
 
-function cachedToken(scope) {
+async function cachedToken(scope) {
 	return Promise
 		.resolve()
-		.then(function() {
-			var cached = CACHED_TOKENS[scope];
+		.then(() => {
+			const cached = CACHED_TOKENS[scope];
 			if (cached) {
 				if (!expired(cached)) {
 					return cached.access_token;
@@ -41,18 +38,17 @@ function cachedToken(scope) {
 
 				delete CACHED_TOKENS[scope];
 			}
-
 			throw new Error('No cached token');
 		});
 }
 
 function adjustClockSkew(res) {
-	var dateHeader = res.headers && res.headers.date;
+	const dateHeader = res.headers.get('date');
 	if (!dateHeader) {
 		return;
 	}
 
-	var serverTime = new Date(dateHeader).getTime();
+	let serverTime = new Date(dateHeader).getTime();
 	// getTime() will return NaN when dateHeader wasn't parseable
 	// and this is faster than isNaN
 	if (serverTime !== serverTime) {
@@ -61,44 +57,55 @@ function adjustClockSkew(res) {
 
 	serverTime = serverTime / 1000 | 0;
 
-	var currentTime = module.exports._clock();
+	const currentTime = clock();
 
 	CLOCK_SKEW = serverTime - currentTime;
 }
 
-function requestToken(scope, opts) {
-	const params = { scope: scope };
+async function requestToken(scope, opts) {
 
+	const params = new URLSearchParams({ scope: scope });
 	if (opts && opts.extendSession === false) {
-		params['X-D2L-Session'] = 'no-keep-alive';
+		params.append('X-D2L-Session', 'no-keep-alive');
 	}
 
-	return new Promise(function(resolve, reject) {
-		request
-			.post(TOKEN_ROUTE)
-			.type('form')
-			.send(params)
-			.use(xsrfToken)
-			.end(function(err, res) {
-				if (err) {
-					return reject(err);
-				}
+	let xsrfToken = null;
+	try {
+		xsrfToken = await getXsrfToken();
+	// eslint-disable-next-line no-empty
+	} catch (e) {}
 
-				adjustClockSkew(res);
-
-				resolve(res.body);
-			});
+	const headers = new Headers({
+		'Content-Type': 'application/x-www-form-urlencoded'
 	});
+	if (xsrfToken !== null) {
+		headers.append('X-Csrf-Token', xsrfToken);
+	}
+
+	const response = await fetch(TOKEN_ROUTE, {
+		body: params,
+		headers,
+		method: 'POST'
+	});
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
+
+	adjustClockSkew(response);
+
+	const value = await response.json();
+	return value;
+
 }
 
-function requestTokenDeduped(scope, opts) {
+async function requestTokenDeduped(scope, opts) {
 	if (!IN_FLIGHT_REQUESTS[scope]) {
 		IN_FLIGHT_REQUESTS[scope] = requestToken(scope, opts)
-			.then(function(token) {
+			.then((token) => {
 				delete IN_FLIGHT_REQUESTS[scope];
 				return token;
 			})
-			.catch(function(e) {
+			.catch((e) => {
 				delete IN_FLIGHT_REQUESTS[scope];
 				throw e;
 			});
@@ -107,10 +114,10 @@ function requestTokenDeduped(scope, opts) {
 	return IN_FLIGHT_REQUESTS[scope];
 }
 
-module.exports = function getLocalJwt(scope, opts) {
+export default async function getLocalJwt(scope, opts) {
 	return Promise
 		.resolve()
-		.then(function() {
+		.then(() => {
 			if (typeof scope === 'object') {
 				opts = scope;
 				scope = undefined;
@@ -118,18 +125,18 @@ module.exports = function getLocalJwt(scope, opts) {
 
 			scope = scope || DEFAULT_SCOPE;
 
-			var cached = cachedToken.bind(null, scope);
+			const cached = cachedToken.bind(null, scope);
 
 			return cached()
-				.catch(function() {
+				.catch(() => {
 					return requestTokenDeduped(scope, opts)
 						.then(cacheToken.bind(null, scope))
 						.then(cached);
 				});
 		});
-};
+}
 
-window.addEventListener && window.addEventListener('storage', function sessionListener(e) {
+window.addEventListener && window.addEventListener('storage', (e) => {
 	switch (e.key) {
 		case 'Session.Expired':
 		case 'Session.UserId':
@@ -139,6 +146,3 @@ window.addEventListener && window.addEventListener('storage', function sessionLi
 			break;
 	}
 });
-
-module.exports._clock = clock;
-module.exports._resetCaches = resetCaches;

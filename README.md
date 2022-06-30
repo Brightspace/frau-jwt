@@ -1,10 +1,8 @@
 # frau-jwt
 
-[![NPM version][npm-image]][npm-url]
-[![Build status][ci-image]][ci-url]
+[![NPM version](https://img.shields.io/npm/v/frau-jwt.svg)](https://www.npmjs.org/package/frau-jwt)
 
-Simple utility to get a json web token in a D2L free range application
-([frau](https://www.npmjs.com/browse/keyword/frau)).
+Simple utility to get a json web token in a D2L free range application ([frau](https://www.npmjs.com/browse/keyword/frau)).
 
 ## Install
 ```sh
@@ -12,14 +10,11 @@ npm install frau-jwt --save
 ```
 
 ## Usage
+
 ```js
-var jwt = require('frau-jwt');
+import jwt from 'frau-jwt';
 
-jwt('a:b:c')
-	.then(function (token) {
-		// do a thing with the token
-	});
-
+const token = await jwt('a:b:c');
 ```
 
 ### API
@@ -28,9 +23,9 @@ jwt('a:b:c')
 
 #### `jwt([String scope][, Object opts])` -> `Promise<String>`
 
-Requests a JWT with the given scope and opts from the hosting LMS. If in an ifrau, the
-request will be delegated to the frame host. The resulting token will be cached
-until it expires.
+Requests a JWT with the given scope and opts from the hosting LMS. If in an ifrau, the request will be delegated to the frame host. 
+
+The resulting token will be cached until it expires.
 
 ##### scope `String` _(`*:*:*:`)_
 
@@ -53,8 +48,8 @@ You may optionally specify whether you want the user's sessions to be extended b
 
 ```js
 jwt();
-jwt({extendSession: false});
-jwt('foo:bar:baz', {extendSession: false});
+jwt({ extendSession: false });
+jwt('foo:bar:baz', { extendSession: false });
 ```
 
 ## Testing
@@ -63,32 +58,41 @@ jwt('foo:bar:baz', {extendSession: false});
 npm test
 ```
 
+## Versioning & Releasing
 
-## Contributing
+> TL;DR: Commits prefixed with `fix:` and `feat:` will trigger patch and minor releases when merged to `main`. Read on for more details...
 
-1. **Fork** the repository. Committing directly against this repository is
-   highly discouraged.
+The [semantic-release GitHub Action](https://github.com/BrightspaceUI/actions/tree/main/semantic-release) is called from the `release.yml` GitHub Action workflow to handle version changes and releasing.
 
-2. Make your modifications in a branch, updating and writing new unit tests
-   as necessary in the `spec` directory.
+### Version Changes
 
-3. Ensure that all tests pass with `npm test`
+All version changes should obey [semantic versioning](https://semver.org/) rules:
+1. **MAJOR** version when you make incompatible API changes,
+2. **MINOR** version when you add functionality in a backwards compatible manner, and
+3. **PATCH** version when you make backwards compatible bug fixes.
 
-4. `rebase` your changes against main. *Do not merge*.
+The next version number will be determined from the commit messages since the previous release. Our semantic-release configuration uses the [Angular convention](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular) when analyzing commits:
+* Commits which are prefixed with `fix:` or `perf:` will trigger a `patch` release. Example: `fix: validate input before using`
+* Commits which are prefixed with `feat:` will trigger a `minor` release. Example: `feat: add toggle() method`
+* To trigger a MAJOR release, include `BREAKING CHANGE:` with a space or two newlines in the footer of the commit message
+* Other suggested prefixes which will **NOT** trigger a release: `build:`, `ci:`, `docs:`, `style:`, `refactor:` and `test:`. Example: `docs: adding README for new component`
 
-5. Submit a pull request to this repository. Wait for tests to run and someone
-   to chime in.
+To revert a change, add the `revert:` prefix to the original commit message. This will cause the reverted change to be omitted from the release notes. Example: `revert: fix: validate input before using`.
 
-### Code Style
+### Releases
 
-This repository is configured with [EditorConfig][EditorConfig] and
-[ESLint][ESLint] rules.
+When a release is triggered, it will:
+* Update the version in `package.json`
+* Tag the commit
+* Create a GitHub release (including release notes)
+* Deploy a new package to NPM
 
+### Releasing from Maintenance Branches
 
-[npm-url]: https://www.npmjs.org/package/frau-jwt
-[npm-image]: https://img.shields.io/npm/v/frau-jwt.svg
-[ci-url]: https://github.com/Brightspace/frau-jwt/actions/workflows/build.yml?query=+branch%3Amain
-[ci-image]: https://github.com/Brightspace/frau-jwt/actions/workflows/build.yml/badge.svg?query=+branch%3Amain
+Occasionally you'll want to backport a feature or bug fix to an older release. `semantic-release` refers to these as [maintenance branches](https://semantic-release.gitbook.io/semantic-release/usage/workflow-configuration#maintenance-branches).
 
-[EditorConfig]: http://editorconfig.org/
-[ESLint]: http://eslint.org
+Maintenance branch names should be of the form: `+([0-9])?(.{+([0-9]),x}).x`.
+
+Regular expressions are complicated, but this essentially means branch names should look like:
+* `1.15.x` for patch releases on top of the `1.15` release (after version `1.16` exists)
+* `2.x` for feature releases on top of the `2` release (after version `3` exists)
