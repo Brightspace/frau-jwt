@@ -35,7 +35,7 @@
   "dependencies": {
     "frau-framed": "^1",
     "frau-xsrf-token": "^3",
-    "ifrau": "^0.40"
+    "ifrau": "^0.41"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7",
