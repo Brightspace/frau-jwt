@@ -1,4 +1,4 @@
-import { expect } from '@open-wc/testing';
+import { expect } from '@brightspace-ui/testing';
 import frauJwt from '../src/framed.js';
 import REQUEST_KEY from '../src/request-key.js';
 import sinon from 'sinon';
