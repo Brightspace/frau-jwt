@@ -33,7 +33,6 @@
     "url": "https://github.com/Brightspace/frau-jwt/issues"
   },
   "dependencies": {
-    "frau-framed": "^1",
     "frau-xsrf-token": "^3",
     "ifrau": "^0.41"
   },
