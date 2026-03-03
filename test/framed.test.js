@@ -30,6 +30,7 @@ describe('framed', () => {
 	});
 	afterEach(() => {
 		sandbox.reset();
+		window.D2L = undefined;
 	});
 
 	it('fetched token from ifrau', async() => {
