@@ -73,7 +73,7 @@ async function requestToken(scope, opts) {
 	try {
 		xsrfToken = await getXsrfToken();
 	// eslint-disable-next-line no-empty
-	} catch (e) {}
+	} catch {}
 
 	const headers = new Headers({
 		'Content-Type': 'application/x-www-form-urlencoded'

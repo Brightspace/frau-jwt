@@ -5,9 +5,9 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "lint": "eslint . --ext .js",
-    "test": "npm run lint && npm run test:headless",
-    "test:headless": "web-test-runner --files \"./test/**/*.test.js\" --node-resolve"
+    "lint": "eslint .",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "d2l-test-runner"
   },
   "files": [
     "/src"
@@ -38,15 +38,9 @@
     "ifrau": "^0.41"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7",
-    "@open-wc/testing": "^3",
-    "@web/test-runner": "^0.13",
-    "eslint": "^8",
-    "eslint-config-brightspace": "^0.18",
-    "eslint-plugin-html": "^6",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-lit": "^1",
-    "eslint-plugin-sort-class-members": "^1",
-    "sinon": "^14"
+    "@brightspace-ui/testing": "^1",
+    "eslint": "^9",
+    "eslint-config-brightspace": "^2",
+    "sinon": "^21"
   }
 }

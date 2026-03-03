@@ -1,4 +1,4 @@
-import { expect } from '@open-wc/testing';
+import { expect } from '@brightspace-ui/testing';
 import getJwt from '../src/local.js';
 import ifrauJwtHost from '../src/host.js';
 import REQUEST_KEY from '../src/request-key.js';

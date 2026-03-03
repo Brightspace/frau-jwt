@@ -1,5 +1,5 @@
 import { default as getLocalJwt, resetCaches, TOKEN_ROUTE } from '../src/local.js';
-import { expect } from '@open-wc/testing';
+import { expect } from '@brightspace-ui/testing';
 import sinon from 'sinon';
 import { XSRF_TOKEN_PATH } from 'frau-xsrf-token';
 
