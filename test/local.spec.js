@@ -1,8 +1,12 @@
 'use strict';
 
-var expect = require('chai').expect,
+var chai = require('chai'),
+	chaiAsPromised = require('chai-as-promised').default,
 	nock = require('nock'),
 	sinon = require('sinon');
+
+chai.use(chaiAsPromised);
+var expect = chai.expect;
 
 var TOKEN_ROUTE = '/d2l/lp/auth/oauth2/token';
 
