@@ -1,6 +1,8 @@
 'use strict';
 
-var framed = require('frau-framed');
+function framed() {
+	return !window.D2L || !window.D2L.IsNotAnIframedApp;
+}
 
 var getFramed = require('./framed'),
 	getLocal = require('./local');
