@@ -40,7 +40,7 @@
     "url": "https://github.com/Brightspace/frau-jwt/issues"
   },
   "dependencies": {
-    "frau-superagent-xsrf-token": "2.1.0",
+    "frau-superagent-xsrf-token": "^2.0.0",
     "ifrau": "^0.39.0",
     "superagent": "^7"
   },
