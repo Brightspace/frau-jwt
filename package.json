@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "check-style": "eslint .",
-    "test-unit": "mocha -r jsdom-global/register test/*.spec.js",
+    "test-unit": "mocha test/*.spec.js",
     "test": "npm run check-style && npm run test-unit",
     "prebundle-host": "rimraf dist && mkdir dist",
     "bundle-host": "browserify -g uglifyify -s frau-jwt/host host.js > dist/host.js && browserify -g uglifyify -p deumdify -s frau-jwt/host host.js > dist/host-global.js",
@@ -52,7 +52,6 @@
     "eslint": "^7",
     "eslint-config-brightspace": "^0.2.0",
     "frau-publisher": "^2.7.12",
-    "jsdom-global": "^3",
     "mocha": "^11",
     "nock": "^14",
     "rimraf": "^2.5.2",

@@ -129,7 +129,7 @@ module.exports = function getLocalJwt(scope, opts) {
 		});
 };
 
-window.addEventListener && window.addEventListener('storage', function sessionListener(e) {
+global.addEventListener && global.addEventListener('storage', function sessionListener(e) {
 	switch (e.key) {
 		case 'Session.Expired':
 		case 'Session.UserId':
