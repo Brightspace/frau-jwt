@@ -5,13 +5,12 @@
   "main": "index.js",
   "scripts": {
     "check-style": "eslint .",
-    "test-unit": "istanbul cover _mocha -r test/_setup.js test/*.spec.js",
+    "test-unit": "mocha test/*.spec.js",
     "test": "npm run check-style && npm run test-unit",
-    "report-coverage": "coveralls < coverage/lcov.info",
     "prebundle-host": "rimraf dist && mkdir dist",
     "bundle-host": "browserify -g uglifyify -s frau-jwt/host src/host.js > dist/host.js",
     "prepublish:cdn": "npm run bundle-host",
-    "publish:cdn": "frau-publisher | peanut-gallery"
+    "publish:cdn": "frau-publisher"
   },
   "config": {
     "frauPublisher": {
@@ -40,7 +39,6 @@
     "url": "https://github.com/Brightspace/frau-jwt/issues"
   },
   "dependencies": {
-    "frau-framed": "^1.0.1",
     "frau-superagent-xsrf-token": "^1.0.1",
     "ifrau": "^0.13.1",
     "lie": "^3.0.2",
@@ -48,18 +46,15 @@
   },
   "devDependencies": {
     "browserify": "^13.0.0",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.3.0",
-    "coveralls": "^2.11.9",
+    "chai": "^6",
+    "chai-as-promised": "^8",
     "eslint": "^2.7.0",
     "eslint-config-brightspace": "^0.2.0",
     "frau-publisher": "^2.5.3",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5",
-    "nock": "^8.0.0",
-    "peanut-gallery": "^1.1.1",
+    "mocha": "^11",
+    "nock": "^14",
     "rimraf": "^2.5.2",
-    "sinon": "^1.17.3",
+    "sinon": "^21",
     "uglifyify": "^3.0.1"
   }
 }

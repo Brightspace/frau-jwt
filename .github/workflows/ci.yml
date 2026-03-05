@@ -1,0 +1,18 @@
+name: CI
+on: pull_request
+jobs:
+  test:
+    name: Test
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Brightspace/third-party-actions@actions/checkout
+      - uses: Brightspace/setup-node@main
+        with:
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        run: npm install
+      - name: Lint (JavaScript)
+        run: npm run check-style
+      - name: Unit Tests (cross-browser)
+        run: npm run test-unit
