@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "frau-xsrf-token": "^3",
-    "ifrau": "^0.41"
+    "ifrau": "^0.42"
   },
   "devDependencies": {
     "@brightspace-ui/testing": "^1",
