@@ -32,6 +32,9 @@
   "bugs": {
     "url": "https://github.com/Brightspace/frau-jwt/issues"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "frau-xsrf-token": "^3",
     "ifrau": "^0.42"
